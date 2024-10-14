@@ -1,10 +1,10 @@
 
 import mysql.connector
 
-# Try connecting to Manticore
+# Connecting to Manticore
 connection = mysql.connector.connect(
     host='127.0.0.1',
-    port=9306  # Manticore's default MySQL port
+    port=9306 
 )
 
 if connection.is_connected():
