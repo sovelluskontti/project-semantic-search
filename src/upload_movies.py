@@ -11,7 +11,7 @@ connection = mysql.connector.connect(
 try:
     with connection.cursor() as cursor:
 
-        with open('/mnt/c/Users/saraf/Desktop/Manticore-Project/data/first_20_movies_noheader.tsv', 'r') as f:
+        with open('/mnt/c/Users/saraf/Desktop/project-semantic-search/data/first_20_movies_noheader.tsv', 'r') as f:
             for line in f:
                 data = line.strip().split('\t')
 
