@@ -11,7 +11,7 @@ connection = mysql.connector.connect(
 try:
     with connection.cursor() as cursor:
 
-        with open('/mnt/c/Users/saraf/Desktop/project-semantic-search/data/first_20_movies_noheader.tsv', 'r') as f:
+        with open('/mnt/c/Users/saraf/Desktop/project-semantic-search/data/first_2000_movies.tsv', 'r') as f:
             for line in f:
                 data = line.strip().split('\t')
 
@@ -20,6 +20,8 @@ try:
 
     connection.commit()
     print("Data uploaded successfully!")
+
+
 
 except mysql.connector.Error as err:
     print(f"Error: {err}")
