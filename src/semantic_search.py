@@ -8,7 +8,7 @@ import json
 model = SentenceTransformer('all-MiniLM-L6-v2')
 
 # Loading the movie data with embeddings from the CSV file
-csv_path = '/mnt/c/Users/saraf/Desktop/project-semantic-search/data/movie_embeddings_fixed.csv'
+csv_path = '/mnt/c/Users/saraf/Desktop/project-semantic-search/data/embeddings_2000.csv'
 movies_df = pd.read_csv(csv_path)
 
 # Converting the 'embedding' column from string to numpy arrays
@@ -29,7 +29,7 @@ def perform_search(query):
     sorted_movies = movies_df.sort_values(by='similarity', ascending=False)
 
     # Returning the top 5 most similar movies
-    return sorted_movies[['title', 'similarity']].head(5)
+    return sorted_movies[['title', 'similarity']].head(10)
 
 # Main function to get user input and perform search
 if __name__ == "__main__":
@@ -37,6 +37,6 @@ if __name__ == "__main__":
     results = perform_search(search_query)
 
     # Displaying the top 5 most relevant movies
-    print("Top 5 relevant movies for your search query:")
+    print("Top 10 relevant movies for your search query:")
     for idx, row in results.iterrows():
         print(f"Movie: {row['title']}, Similarity: {row['similarity']:.4f}")

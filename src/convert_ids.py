@@ -11,8 +11,8 @@ def convert_ids_in_csv(input_file, output_file):
     df.to_csv(output_file, index=False)
 
 if __name__ == "__main__":
-    input_file_path = '/mnt/c/Users/saraf/Desktop/project-semantic-search/data/movie_embeddings.csv'
-    output_file_path = '/mnt/c/Users/saraf/Desktop/project-semantic-search/data/movie_embeddings_modified.csv'
+    input_file_path = '/mnt/c/Users/saraf/Desktop/project-semantic-search/data/initial_embeddings_2000.csv'
+    output_file_path = '/mnt/c/Users/saraf/Desktop/project-semantic-search/data/embeddings_2000.csv'
     
     convert_ids_in_csv(input_file_path, output_file_path)
     print(f'Converted IDs and saved to {output_file_path}')
