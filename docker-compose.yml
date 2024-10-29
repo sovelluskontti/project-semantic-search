@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  manticoresearch:
+      container_name: manticoresearch-semantic
+      # https://hub.docker.com/r/manticoresearch/manticore/
+      image: manticoresearch/manticore:6.3.6
+      environment:
+        - EXTRA=1
+      ports:
+        - "9306:9306"
+        - "9308:9308"
+      ulimits:
+        nproc: 65535
+        nofile:
+          soft: 65535
+          hard: 65535
+        memlock:
+          soft: -1
+          hard: -1
+      volumes:
+        # ${MANTICORE_DATA} is an environment variable that holds
+        # the path to the data directory.
+        - ${MANTICORE_DATA}:/manticore
