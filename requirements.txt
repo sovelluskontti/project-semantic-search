@@ -1,2 +1,4 @@
+pandas
 sentence-transformers
-manticoresearch
+mysql-connector-python
+scikit-learn
