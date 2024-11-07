@@ -6,31 +6,53 @@ import csv
 conn = mysql.connector.connect(
     host='manticoresearch',
     port=9306,
-    user='sarafarahabadi',
-    password='Mj@0018238726',
+    user='',
+    password='',
     database='Manticore'
 )
 
 cursor = conn.cursor()
 
-data = []
+# Create list that will store all the SQL insert commands
+sql_insert_commands = []
 
+# The embeddings.csv file will contain the following columns:
+# id, title, embedding
+# 15,Autour d'une cabine,"(-0.05206402, 0.05769499, ... -0.04620804, 0.05950261, -0.02039390, -0.04441112)"
+#
+# In the example above, the embedding is truncated for brevity. It will hold 384 float values.
+# Also the title has a single quote that needs to be escaped. Not every title will have a single quote
+# but this is just an example of how to handle it.
 with open('/app/data/embeddings.csv', 'r') as file:
     reader = csv.reader(file)
     next(reader)  
     for row in reader:
+        # Extract the values from the CSV row.
+        # Clean title by escaping single quotes. If the title has
+        # other special characters, they should be escaped as well.
+        # By special characters, I mean characters that will break the SQL syntax.
+        # I don't handle embedding_str because the content is okay as is. It already
+        # include the parentheses and commas.
         id = int(row[0]) 
-        title = row[1]  
+        title = row[1].replace("'", "\\'")
         embedding_str = row[2]  
 
-        embedding = [float(x) for x in embedding_str.strip('()').split(',')]
+        # Here I simplify things by using string formatting to build the SQL query.
+        # This was easier because the embeddings are collections of floats. The list of values
+        # that was used in executemany-function earlier can be tricky. It usually works with
+        # simple values like integers and strings but can be problematic with more complex data.
+        #
+        # If you put break keyword after the append below and print the query, you can see 
+        # the query that will be executed. This is just formatting the valid SQL query.
+        # When the query is formatted, it will be put into list of queries that will be executed.
+        query = "INSERT INTO movies (id, title, embedding) VALUES (%s, '%s', %s)" % (id, title, embedding_str)
+        sql_insert_commands.append(query)
 
-        data.append((id, title, embedding))
+# Exceute all the SQL insert commands
+for command in sql_insert_commands:
+    cursor.execute(command)
 
-query = "INSERT INTO movies (id, title, embedding) VALUES (%s, %s, %s)"
-
-cursor.executemany(query, data)
-
+# Commit the transaction to the database
 conn.commit()
 
 cursor.close()
