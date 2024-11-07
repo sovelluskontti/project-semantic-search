@@ -21,4 +21,4 @@ services:
       volumes:
         # ${MANTICORE_DATA} is an environment variable that holds
         # the path to the data directory.
-        - ${MANTICORE_DATA}:/manticore
+        - ${MANTICORE_DATA}:/var/lib/manticore
