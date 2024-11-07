@@ -28,9 +28,8 @@ services:
     volumes:
       - ./data:/app/data 
       - ./src:/app/src
-
     depends_on:
       - manticoresearch 
     environment:
       - DATA_PATH=/app/data/embeddings.csv  
-    command: ["python", "src/load_data.py"] 
+    tty: true
