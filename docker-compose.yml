@@ -32,4 +32,5 @@ services:
       - manticoresearch 
     environment:
       - DATA_PATH=/app/data/embeddings.csv  
+    command: ["python", "src/load_data.py"] 
     tty: true
