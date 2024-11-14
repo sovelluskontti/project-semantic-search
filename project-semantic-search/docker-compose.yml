@@ -2,21 +2,58 @@ version: "3.9"
 services:
   server:
     build: ./server
-    ports:  
+    ports:
       - "80:5000"
-    volumes:  
+    volumes:
       - ./server:/app
     environment:
       FLASK_ENV: development
       FLASK_DEBUG: 1
-  
+    depends_on:
+      - manticoresearch  
+
   web:
     build: ./client/my-app
     ports:
       - "3000:3000"
     volumes:
-      - ./client/my-app:/user/src/app  
+      - ./client/my-app:/user/src/app
     depends_on:
       - server
     environment:
-      - CHOKIDAR_USEPOLLING= true 
+      - CHOKIDAR_USEPOLLING=true
+  
+  manticoresearch:
+    container_name: manticore-search-semantic
+    image: manticoresearch/manticore:6.3.6
+    environment:
+      - EXTRA=1
+    ports:
+      - "9306:9306" 
+      - "9312:9312" 
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 65535
+        hard: 65535
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ./manticore-data:/var/lib/manticore 
+
+
+  python-app:
+    container_name: embedding_generator
+    build:
+      context: . 
+      dockerfile: Dockerfile  # Make sure the Dockerfile is at the root of the project
+    volumes:
+      - ./server:/app  # Mount server to make sure your script is inside the container
+      - ./data:/app/data  # Ensure the data is accessible inside the container
+    depends_on:
+      - manticoresearch  # Ensure this service starts after Manticore
+    environment:
+      - DATA_PATH=/app/server/data/embeddings.csv  # If your script requires a path to the data
+    command: ["python", "/app/server/data_scripts/load_data.py"]  # Run the load_data.py script after starting
+    tty: true

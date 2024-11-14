@@ -1,0 +1,7 @@
+{
+"clusters":{},
+"indexes":{"movies":{
+"type":"rt",
+"path":"movies"
+}}
+}

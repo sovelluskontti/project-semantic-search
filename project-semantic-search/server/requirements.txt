@@ -1,1 +1,5 @@
 Flask==2.2.5
+pandas
+# sentence-transformers
+mysql-connector-python
+scikit-learn
