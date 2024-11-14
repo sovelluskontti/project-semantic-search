@@ -1,0 +1,22 @@
+version: "3.9"
+services:
+  server:
+    build: ./server
+    ports:  
+      - "80:5000"
+    volumes:  
+      - ./server:/app
+    environment:
+      FLASK_ENV: development
+      FLASK_DEBUG: 1
+  
+  web:
+    build: ./client/my-app
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./client/my-app:/user/src/app  
+    depends_on:
+      - server
+    environment:
+      - CHOKIDAR_USEPOLLING= true 
