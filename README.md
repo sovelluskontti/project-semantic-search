@@ -15,7 +15,7 @@ This project implements a proof-of-concept semantic search solution using the Ma
 - Docker
 
   ## Project's structure 
-  The final version currently exists in the "master" branch. Below is the project directory structure:
+  Below is the project directory structure:
 
   <img width="329" alt="image" src="https://github.com/user-attachments/assets/229523c2-eef4-4dd5-ac98-805626551d5b">
 
