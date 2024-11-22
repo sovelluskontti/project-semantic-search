@@ -25,10 +25,11 @@ This project implements a proof-of-concept semantic search solution using the Ma
   - The main dockerfile and docker-compose.yml file for connecting the client and server in the docker environment.
  
   ## How to use this project
-  - Clone the project URL to your local computer from the "master" branch and have Docker installed.
+  - Clone the project URL to your local computer and have Docker installed.
   - Open WindowsPowerShell and go to the project directory where you have cloned it.
   - First, check that you have docker installed by "docker -v" command.
-  - Build the project using the "docker-compose build". It will install all dependencies and build the project containers.
+  - In the PowerShell, Go to the react app directory which is "client/my-app/" and run this command to install all dependencies and create the node modules folder on your local system: "nmp install"
+  - Then, in the main directory, build the project using the "docker-compose build". It will install all dependencies and build the project containers.
   - Start the containers again by using "docker-compose up -d". Now the container is running in the background and no need to start it again.
   - Let's set up the database table by connecting to MySql and creating the table, shown in the picture below:
 <img width="668" alt="image" src="https://github.com/user-attachments/assets/a4489f56-6623-4144-b6f4-656765e7b39f">
