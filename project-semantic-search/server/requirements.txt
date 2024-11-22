@@ -3,3 +3,5 @@ pandas
 # sentence-transformers
 mysql-connector-python
 scikit-learn
+pymysql
+flask-cors
