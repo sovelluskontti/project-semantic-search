@@ -17,7 +17,7 @@ This project implements a proof-of-concept semantic search solution using the Ma
   ## Project's structure 
   Below is the project directory structure:
 
-  <img width="329" alt="image" src="https://github.com/user-attachments/assets/229523c2-eef4-4dd5-ac98-805626551d5b">
+<img width="341" alt="image" src="https://github.com/user-attachments/assets/85ae8e9b-79b7-4537-82f9-aa82d42db4e3">
 
   As shown above, the project is divided into three sections: 
   - client for handling the React application for the frontend
@@ -28,7 +28,7 @@ This project implements a proof-of-concept semantic search solution using the Ma
   - Clone the project URL to your local computer and have Docker installed.
   - Open WindowsPowerShell and go to the project directory where you have cloned it.
   - First, check that you have docker installed by "docker -v" command.
-  - In the PowerShell, Go to the react app directory which is "client/my-app/" and run this command to install all dependencies and create the node modules folder on your local system: "nmp install"
+  - In the PowerShell, Go to the react app directory which is "client/my-app/" and run this command to install all dependencies and create the node modules folder on your local system: "npm install"
   - Then, in the main directory, build the project using the "docker-compose build". It will install all dependencies and build the project containers.
   - Start the containers again by using "docker-compose up -d". Now the container is running in the background and no need to start it again.
   - Let's set up the database table by connecting to MySql and creating the table, shown in the picture below:
