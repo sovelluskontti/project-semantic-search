@@ -58,4 +58,8 @@ Client working:
 <img width="292" alt="image" src="https://github.com/user-attachments/assets/497d9461-a0ef-4801-9d02-885de8698980">
 
 
-The next step would be to implement the react application for the full-text search. 
+- Full-text search is also working in the react app and functioning completely.
+<img width="232" alt="image" src="https://github.com/user-attachments/assets/78a3831a-06b4-467c-80d4-f79ae0186ae1">
+
+
+The next step would be to implement the semantic search on both the Flask and React applications. 
