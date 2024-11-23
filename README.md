@@ -61,5 +61,12 @@ Client working:
 - Full-text search is also working in the react app and functioning completely.
 <img width="232" alt="image" src="https://github.com/user-attachments/assets/78a3831a-06b4-467c-80d4-f79ae0186ae1">
 
+## Semantic search
+The next stage of the project is to implement semantic search and to be able to compare both searches together. Below is the search buttons feature which only now the keyword search works.
 
-The next step would be to implement the semantic search on both the Flask and React applications. 
+<img width="231" alt="image" src="https://github.com/user-attachments/assets/14c0c501-45c4-4c8d-975c-56dc5b082f63">
+<img width="238" alt="image" src="https://github.com/user-attachments/assets/594c4fb4-d124-4899-8654-8c9ff8152392">
+
+
+
+The next step would be implementing the semantic search on both the Flask and React applications. 
