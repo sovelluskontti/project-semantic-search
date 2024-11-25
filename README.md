@@ -52,7 +52,7 @@ Client working:
 
 
 ## Full-text search
-- The server is running on "http://localhost:80/search?query=(put the search word)" and the Client is running on "http://localhost:3000/".
+- The server is running on "http://localhost:80/search?query=(put-the-search-word)" and the Client is running on "http://localhost:3000/".
 - Full-text search is working on the backend currently as shown below with a few tests:
 
 <img width="314" alt="image" src="https://github.com/user-attachments/assets/81fffba8-e9bc-439e-808c-46f08eb36b47">
