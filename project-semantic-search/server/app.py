@@ -30,12 +30,10 @@ def get_db_connection():
         print(f"Database connection failed: {e}")
         raise
 
-# key-word search works 
 @app.route('/search', methods=['GET'])
 def search_movies():
     """Performs traditional full-text search."""
     query = request.args.get('query', '')
-    print(f"Received query for traditional search: {query}")
     if not query:
         return jsonify({"error": "Query parameter is required"}), 400
 
@@ -43,22 +41,18 @@ def search_movies():
     cursor = connection.cursor()
     try:
         sql = "SELECT id, title FROM movies WHERE MATCH(%s) LIMIT 10;"
-        print(f"Executing SQL: {sql} with query: {query}")
         cursor.execute(sql, (query,))
         results = cursor.fetchall()
-        print(f"Results: {results}")
-
         movies = [{"id": row[0], "title": row[1]} for row in results]
         return jsonify(movies)
     except Exception as e:
-        print(f"Error in traditional search: {e}")
         return jsonify({"error": str(e)}), 500
     finally:
         cursor.close()
         connection.close()
 
 
-# semantic search does not yet work 
+
 @app.route('/semantic-search', methods=['GET'])
 def semantic_search():
     """Performs semantic search using OpenAI embeddings directly."""
@@ -73,7 +67,7 @@ def semantic_search():
         print(f"Generating embedding for query: {query}")
         response = openai.Embedding.create(
             input=query,
-            model="text-embedding-ada-002"
+            model="text-embedding-3-small"
         )
         query_embedding = np.array(response['data'][0]['embedding'])
         print(f"Generated embedding: {query_embedding}")
@@ -85,12 +79,13 @@ def semantic_search():
         cursor = connection.cursor()
         try:
             sql = f"""
-            SELECT id, title
+            SELECT title, knn_dist()
             FROM movies
-            ORDER BY KNN(10, embedding, [{embedding_str}]) ASC;
+            WHERE knn(embedding, 10, ({embedding_str}));
             """
+
             print(f"Executing SQL for semantic search: {sql[:120]}...")
-            cursor.execute(sql) 
+            cursor.execute(sql)
             results = cursor.fetchall()
             print(f"Search results: {results}")
 
@@ -106,6 +101,6 @@ def semantic_search():
         print(f"Error generating embedding or connecting to database: {e}")
         return jsonify({"error": str(e)}), 500
 
+
 if __name__ == "__main__":
-    print("Starting the Flask app...")
-    app.run(host="0.0.0.0", port=5000)  
+    app.run(host="0.0.0.0", port=5000)
