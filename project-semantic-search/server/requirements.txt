@@ -1,7 +1,8 @@
 Flask==2.2.5
 pandas
-# sentence-transformers
 mysql-connector-python
-scikit-learn
 pymysql
 flask-cors
+numpy
+openai==0.28
+python-dotenv
