@@ -47,13 +47,13 @@ services:
     container_name: embedding_generator
     build:
       context: . 
-      dockerfile: Dockerfile  # Make sure the Dockerfile is at the root of the project
+      dockerfile: Dockerfile 
     volumes:
-      - ./server:/app  # Mount server to make sure your script is inside the container
-      - ./data:/app/data  # Ensure the data is accessible inside the container
+      - ./server:/app  
+      - ./data:/app/data  
     depends_on:
-      - manticoresearch  # Ensure this service starts after Manticore
+      - manticoresearch  
     environment:
-      - DATA_PATH=/app/server/data/embeddings.csv  # If your script requires a path to the data
-    command: ["python", "/app/server/data_scripts/load_data.py"]  # Run the load_data.py script after starting
+      - DATA_PATH=/app/server/data/embeddings_100.csv 
+    command: ["python", "/app/server/data_scripts/load_data.py"]  
     tty: true
