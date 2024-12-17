@@ -89,7 +89,7 @@ def semantic_search():
             results = cursor.fetchall()
             print(f"Search results: {results}")
 
-            movies = [{"id": row[0], "title": row[1]} for row in results]
+            movies = [{"title": row[0], "similarity": row[1]} for row in results]
             return jsonify(movies)
         except Exception as e:
             print(f"Error during KNN search: {e}")
