@@ -62,8 +62,8 @@ def generate_embeddings(input_file, output_file):
 
 if __name__ == "__main__":
     if test_openai_connection():
-        input_file_path = '/app/data/movies_100.csv' 
-        output_file_path = '/app/data/embeddings_100.csv' 
+        input_file_path = '/app/data/movies_2000.csv' 
+        output_file_path = '/app/data/embeddings_2000.csv' 
 
         generate_embeddings(input_file_path, output_file_path)
     else:

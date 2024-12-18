@@ -13,7 +13,7 @@ conn = mysql.connector.connect(
 
 cursor = conn.cursor()
 
-input_file_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'embeddings_100.csv')
+input_file_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'embeddings_2000.csv')
 
 with open(input_file_path, 'r') as file:
     reader = csv.reader(file)
