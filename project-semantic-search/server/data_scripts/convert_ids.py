@@ -12,6 +12,6 @@ def convert_ids_in_tsv(input_file, output_file):
     print(f'Converted IDs and saved to {output_file}')
 
 if __name__ == "__main__":
-    input_file_path = '../data/first_100_movies.tsv' 
-    output_file_path = '../data/movies_100.csv' 
+    input_file_path = './data/first_2000_movies.tsv' 
+    output_file_path = './data/movies_2000.csv' 
     convert_ids_in_tsv(input_file_path, output_file_path)
