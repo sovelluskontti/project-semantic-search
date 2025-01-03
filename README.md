@@ -9,7 +9,7 @@ This project implements a proof-of-concept semantic search solution using the Ma
 ## Technologies
 - Python
 - Manticore Search
-- SentenceTransformers
+- OpenAI
 - Flask
 - React
 - Docker
@@ -17,7 +17,7 @@ This project implements a proof-of-concept semantic search solution using the Ma
   ## Project's structure 
   Below is the project directory structure:
 
-<img width="341" alt="image" src="https://github.com/user-attachments/assets/85ae8e9b-79b7-4537-82f9-aa82d42db4e3">
+![image](https://github.com/user-attachments/assets/21846c1e-8b8f-4496-b071-baf39e487e81)
 
   As shown above, the project is divided into three sections: 
   - client for handling the React application for the frontend
@@ -25,49 +25,71 @@ This project implements a proof-of-concept semantic search solution using the Ma
   - The main dockerfile and docker-compose.yml file for connecting the client and server in the docker environment.
  
   ## How to use this project
+
   - Clone the project URL to your local computer and have Docker installed.
   - Open WindowsPowerShell and go to the project directory where you have cloned it.
   - First, check that you have docker installed by "docker -v" command.
-  - In the PowerShell, Go to the react app directory which is "client/my-app/" and run this command to install all dependencies and create the node modules folder on your local system: "npm install"
+  - In the PowerShell, Go to the react app directory which is "client/my-app/" and run this command to install all dependencies and create the node modules folder on your local system: "npm install".
   - Then, in the main directory, build the project using the "docker-compose build". It will install all dependencies and build the project containers.
   - Start the containers again by using "docker-compose up -d". Now the container is running in the background and no need to start it again.
-  - Let's set up the database table by connecting to MySql and creating the table, shown in the picture below:
-<img width="668" alt="image" src="https://github.com/user-attachments/assets/a4489f56-6623-4144-b6f4-656765e7b39f">
 
-  - Next would be to insert the movies data into the Manticore database table. In the PowerShell, go to the server bash and run the "load_data.py" script, shown as below:
-<img width="577" alt="image" src="https://github.com/user-attachments/assets/d0aa8392-3609-4c45-9b30-a760d2fedf3b">
+![image](https://github.com/user-attachments/assets/f7848db7-997a-4673-8161-49b8781088a9)
 
-- After that, we can go to the database table and see the data in the movies database table, below is just a small part of the data. 
-<img width="666" alt="image" src="https://github.com/user-attachments/assets/ec152e48-6e0f-4100-a084-1d51f9c9b9ae">
+  - Then, to check if the API connection works, go to the serve bash container using the command “docker-compose exec server bash” and run the “python API_connection,py” command to make sure that the API connection works. If it does, you will see this message: “OpenAI API connection is working!”.
 
-We have the client and server both running in the docker and are connected. As a test, I created a component in the React app, and below is the test result:
+![image](https://github.com/user-attachments/assets/23861b81-2af1-4d18-aa9f-d391c40853d4)
 
-Server working:
+  - Now, Let's set up the database table by connecting to MySql and creating the table. 
+        o	First we have to open the mysql by using this command: “docker exec -it manticore-search-semantic mysql -u manticore -p” 
+        o	Secondly after entering the password, we can access the Manticore database.
+        o	Then, we must create the table called “movies” with specific parameters to be able to perform the semantic search. Since we are using the “text-embedding-3-small” OpenAI model, the dimensions should be 1536. Use this command to create the table: 
+        create table movies( title text, embedding float_vector knn_type='hnsw' knn_dims='1536' hnsw_similarity='l2' );
+        o	At the moment the table is create but expectedly is without any data. Next step would be to insert the data into the movies database table. 
+All of the steps above are shown in the picture below:
 
-<img width="300" alt="image" src="https://github.com/user-attachments/assets/045aee5a-5dc9-4b24-b02b-88b81b9db512">
+![image](https://github.com/user-attachments/assets/b1d3693e-de35-4a19-a100-96eafcc94d0d)
 
-Client working:
+  - Next would be to insert the movies data into the Manticore database tables. Currently the data file is in the format of zip because of the file size is big. 
+  - First, we have to convert it to a csv file to be able to insert it into the Manticore database table. To achieve this there is a python script named “zip_to_csv.py” and another named “load_data.py” in the server folder. 
+  - Open the windows powershell and go to the server bash using this command:
+      docker exec -it project-semantic-search-server-1 bash
+  - Then run the “zip_to_csv.py” python command using this command:
+      python data_scripts/zip_to_csv.py
 
-<img width="595" alt="image" src="https://github.com/user-attachments/assets/1c7716b9-803c-4ce9-8e12-3f7b838fb3dc">
+All the steps above are shown in the picture below:
+
+![image](https://github.com/user-attachments/assets/03e1f547-e7bf-4254-bc86-b065fa55b8d6)
+
+Now, there is a new file named “embeddings_2000.csv” created in the “data” folder in the server containing all of the generated embeddings. Let’s insert them into the Manticore database movies table. 
+  - Inside the server bash run the below python command to insert the data into the manticore movies table:
+      python data_scripts/load_data.py
+
+![image](https://github.com/user-attachments/assets/d3743588-2f01-4ae5-a739-f5ac16c1a6d5)
+
+Finally, the data is inserted into the Manticore database movies table. Inside the MySQL environment run the following command and you should be able to see the first 10 rows of the data including the id, title and embedding:
+Select * from movies limit 10;
+
+![image](https://github.com/user-attachments/assets/46dd879a-977c-4e9c-89d0-5bba60e481fa)
+
+![image](https://github.com/user-attachments/assets/3c54da43-b079-4244-8082-7174b0c942c2)
 
 
-## Full-text search
-- The server is running on "http://localhost:80/search?query=(put-the-search-word)" and the Client is running on "http://localhost:3000/".
-- Full-text search is working on the backend currently as shown below with a few tests:
+## Keyword and Semantic search
 
-<img width="314" alt="image" src="https://github.com/user-attachments/assets/81fffba8-e9bc-439e-808c-46f08eb36b47">
-<img width="292" alt="image" src="https://github.com/user-attachments/assets/497d9461-a0ef-4801-9d02-885de8698980">
+The next part of the project would be to do the keyword and semantic search based on the data in the Manticore database table which we have just inserted. 
+The React app is working on the localhost port 3000. 
+http://localhost:3000/
+You should be able to see the React application like the picture shown below:
 
+![image](https://github.com/user-attachments/assets/0202cafa-aa8a-4890-b537-119fca7d4778)
 
-- Full-text search is also working in the react app and functioning completely.
-<img width="232" alt="image" src="https://github.com/user-attachments/assets/78a3831a-06b4-467c-80d4-f79ae0186ae1">
+Let’s first test the keyword search:
 
-## Semantic search
-The next stage of the project is to implement semantic search and to be able to compare both searches together. Below is the search buttons feature which only now the keyword search works.
+![image](https://github.com/user-attachments/assets/b48afef7-a69d-4947-a9ed-4796b6268352)
 
-<img width="231" alt="image" src="https://github.com/user-attachments/assets/14c0c501-45c4-4c8d-975c-56dc5b082f63">
-<img width="238" alt="image" src="https://github.com/user-attachments/assets/594c4fb4-d124-4899-8654-8c9ff8152392">
+Now the semantic search for the same search text:
 
+![image](https://github.com/user-attachments/assets/f79445e6-3240-49e6-a575-f7fb7997ccb4)
 
+You can do the test with any word that currently exists in the database. 
 
-The next step would be implementing the semantic search on both the Flask and React applications. 
