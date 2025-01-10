@@ -30,6 +30,7 @@ This project implements a proof-of-concept semantic search solution using the Ma
   - Open WindowsPowerShell and go to the project directory where you have cloned it.
   - First, check that you have docker installed by "docker -v" command.
   - In the PowerShell, Go to the react app directory which is "client/my-app/" and run this command to install all dependencies and create the node modules folder on your local system: "npm install".
+  - Copy your .env file containing your own OpenAI API key into the server folder. The file content should be like this: "OPENAI_API_KEY= (your own API key)"
   - Then, in the main directory, build the project using the "docker-compose build". It will install all dependencies and build the project containers.
   - Start the containers again by using "docker-compose up -d". Now the container is running in the background and no need to start it again.
 
