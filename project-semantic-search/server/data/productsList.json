@@ -1,0 +1,212 @@
+[
+  {
+    "product_id": "PM-2001",
+    "name": "Power Drill PM-2001",
+    "category": "Power Tools",
+    "manufacturer": "DrillMaster",
+    "description": "A versatile power drill perfect for DIY and professional use.",
+    "price": 89.99,
+    "currency": "EUR",
+    "stock": 120,
+    "features": ["LED light", "Battery included", "Two-speed gearbox"],
+    "ratings": {
+      "average_rating": 4.5,
+      "review_count": 90
+    },
+    "warranty": "3 years",
+    "images": [
+      "https://example.com/images/pm-2001-front.jpg",
+      "https://example.com/images/pm-2001-back.jpg"
+    ],
+    "updated_at": "2025-02-03T12:00:00Z"
+  },
+  {
+    "product_id": "PM-2002",
+    "name": "Cordless Impact Drill PM-2002",
+    "category": "Power Tools",
+    "manufacturer": "PowerCraft",
+    "description": "Compact and powerful impact drill for heavy-duty work.",
+    "price": 109.99,
+    "currency": "EUR",
+    "stock": 85,
+    "features": ["Impact drill", "Battery included", "USB-C charging"],
+    "ratings": {
+      "average_rating": 4.7,
+      "review_count": 45
+    },
+    "warranty": "2 years",
+    "images": [
+      "https://example.com/images/pm-2002-front.jpg",
+      "https://example.com/images/pm-2002-back.jpg"
+    ],
+    "updated_at": "2025-02-03T12:00:00Z"
+  },
+  {
+    "product_id": "PM-2003",
+    "name": "Wood Drill Set PM-2003",
+    "category": "Drilling Tools",
+    "manufacturer": "WoodMaster",
+    "description": "Set of high-quality wood drills for precision work.",
+    "price": 29.99,
+    "currency": "EUR",
+    "stock": 200,
+    "features": ["Wood drill", "Storage bag"],
+    "ratings": {
+      "average_rating": 4.3,
+      "review_count": 60
+    },
+    "warranty": "1 year",
+    "images": [
+      "https://example.com/images/pm-2003-front.jpg",
+      "https://example.com/images/pm-2003-back.jpg"
+    ],
+    "updated_at": "2025-02-03T12:00:00Z"
+  },
+  {
+    "product_id": "PM-2004",
+    "name": "Steel Drill Set PM-2004",
+    "category": "Drilling Tools",
+    "manufacturer": "DrillWorks",
+    "description": "Durable steel drill set for tough materials.",
+    "price": 39.99,
+    "currency": "EUR",
+    "stock": 175,
+    "features": ["Steel drill", "USB-C charging"],
+    "ratings": {
+      "average_rating": 4.6,
+      "review_count": 120
+    },
+    "warranty": "2 years",
+    "images": [
+      "https://example.com/images/pm-2004-front.jpg",
+      "https://example.com/images/pm-2004-back.jpg"
+    ],
+    "updated_at": "2025-02-03T12:00:00Z"
+  },
+  {
+    "product_id": "PM-2005",
+    "name": "Rock Drill PM-2005",
+    "category": "Power Tools",
+    "manufacturer": "EarthBore",
+    "description": "Heavy-duty drill designed for rock and stone drilling.",
+    "price": 149.99,
+    "currency": "EUR",
+    "stock": 65,
+    "features": ["Rock drill", "LED light", "Fast charging"],
+    "ratings": {
+      "average_rating": 4.8,
+      "review_count": 80
+    },
+    "warranty": "3 years",
+    "images": [
+      "https://example.com/images/pm-2005-front.jpg",
+      "https://example.com/images/pm-2005-back.jpg"
+    ],
+    "updated_at": "2025-02-03T12:00:00Z"
+  },
+  {
+    "product_id": "PM-2006",
+    "name": "Cordless Drill PM-2006",
+    "category": "Power Tools",
+    "manufacturer": "TechTools",
+    "description": "Cordless drill with a fast-charging feature for quick projects.",
+    "price": 79.99,
+    "currency": "EUR",
+    "stock": 140,
+    "features": ["USB-C charging", "Fast charging"],
+    "ratings": {
+      "average_rating": 4.2,
+      "review_count": 30
+    },
+    "warranty": "2 years",
+    "images": [
+      "https://example.com/images/pm-2006-front.jpg",
+      "https://example.com/images/pm-2006-back.jpg"
+    ],
+    "updated_at": "2025-02-03T12:00:00Z"
+  },
+  {
+    "product_id": "PM-2007",
+    "name": "Combo Drill Set PM-2007",
+    "category": "Power Tools",
+    "manufacturer": "DrillPro",
+    "description": "All-in-one drill set for various drilling tasks.",
+    "price": 59.99,
+    "currency": "EUR",
+    "stock": 90,
+    "features": ["Two-speed gearbox", "Impact drill", "Storage bag"],
+    "ratings": {
+      "average_rating": 4.4,
+      "review_count": 70
+    },
+    "warranty": "2 years",
+    "images": [
+      "https://example.com/images/pm-2007-front.jpg",
+      "https://example.com/images/pm-2007-back.jpg"
+    ],
+    "updated_at": "2025-02-03T12:00:00Z"
+  },
+  {
+    "product_id": "PM-2008",
+    "name": "LED Drill Light PM-2008",
+    "category": "Power Tools",
+    "manufacturer": "ToolLite",
+    "description": "Drill with built-in LED light for visibility in low-light conditions.",
+    "price": 49.99,
+    "currency": "EUR",
+    "stock": 110,
+    "features": ["LED light", "Two-speed gearbox"],
+    "ratings": {
+      "average_rating": 4.6,
+      "review_count": 50
+    },
+    "warranty": "1 year",
+    "images": [
+      "https://example.com/images/pm-2008-front.jpg",
+      "https://example.com/images/pm-2008-back.jpg"
+    ],
+    "updated_at": "2025-02-03T12:00:00Z"
+  },
+  {
+    "product_id": "PM-2009",
+    "name": "Woodworking Drill PM-2009",
+    "category": "Drilling Tools",
+    "manufacturer": "WoodTech",
+    "description": "Specialized woodworking drill designed for precision.",
+    "price": 34.99,
+    "currency": "EUR",
+    "stock": 160,
+    "features": ["Wood drill", "Storage bag"],
+    "ratings": {
+      "average_rating": 4.2,
+      "review_count": 110
+    },
+    "warranty": "1 year",
+    "images": [
+      "https://example.com/images/pm-2009-front.jpg",
+      "https://example.com/images/pm-2009-back.jpg"
+    ],
+    "updated_at": "2025-02-03T12:00:00Z"
+  },
+  {
+    "product_id": "PM-2010",
+    "name": "Heavy Duty Drill PM-2010",
+    "category": "Power Tools",
+    "manufacturer": "DrillForce",
+    "description": "Heavy-duty drill for industrial and high-performance use.",
+    "price": 199.99,
+    "currency": "EUR",
+    "stock": 50,
+    "features": ["Impact drill", "Steel drill", "Rock drill"],
+    "ratings": {
+      "average_rating": 4.9,
+      "review_count": 95
+    },
+    "warranty": "5 years",
+    "images": [
+      "https://example.com/images/pm-2010-front.jpg",
+      "https://example.com/images/pm-2010-back.jpg"
+    ],
+    "updated_at": "2025-02-03T12:00:00Z"
+  }
+]

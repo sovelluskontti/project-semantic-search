@@ -30,6 +30,7 @@ def get_db_connection():
         print(f"Database connection failed: {e}")
         raise
 
+## keyword search 
 @app.route('/search', methods=['GET'])
 def search_movies():
     """Performs traditional full-text search."""
@@ -52,7 +53,7 @@ def search_movies():
         connection.close()
 
 
-
+## semantic search 
 @app.route('/semantic-search', methods=['GET'])
 def semantic_search():
     """Performs semantic search using OpenAI embeddings directly."""
@@ -100,6 +101,48 @@ def semantic_search():
     except Exception as e:
         print(f"Error generating embedding or connecting to database: {e}")
         return jsonify({"error": str(e)}), 500
+
+
+## faceted search 
+@app.route('/faceted-search', methods=['GET'])
+def faceted_search():
+    """Performs faceted search based on filters."""
+    category = request.args.get('category', '')
+    manufacturer = request.args.get('manufacturer', '')
+    min_price = request.args.get('min_price', '')
+    max_price = request.args.get('max_price', '')
+
+    conditions = []
+    params = []
+
+    if category:
+        conditions.append("category = %s")
+        params.append(category)
+    if manufacturer:
+        conditions.append("manufacturer = %s")
+        params.append(manufacturer)
+    if min_price:
+        conditions.append("price >= %s")
+        params.append(float(min_price))
+    if max_price:
+        conditions.append("price <= %s")
+        params.append(float(max_price))
+
+    where_clause = " AND ".join(conditions) if conditions else "1=1"
+    sql = f"SELECT product_id, name, category, manufacturer, price FROM products WHERE {where_clause} LIMIT 20;"
+
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    try:
+        cursor.execute(sql, tuple(params))
+        results = cursor.fetchall()
+        products = [{"product_id": row[0], "name": row[1], "category": row[2], "manufacturer": row[3], "price": row[4]} for row in results]
+        return jsonify(products)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    finally:
+        cursor.close()
+        connection.close()
 
 
 if __name__ == "__main__":
