@@ -103,18 +103,20 @@ def semantic_search():
         return jsonify({"error": str(e)}), 500
 
 
-# ## faceted search 
+
 # @app.route('/faceted-search', methods=['GET'])
 # def faceted_search():
-#     """Performs faceted search based on filters."""
+#     """Performs faceted search based on filters, including keyword search."""
 #     category = request.args.get('category', '')
 #     manufacturer = request.args.get('manufacturer', '')
 #     min_price = request.args.get('min_price', '')
 #     max_price = request.args.get('max_price', '')
+#     search_term = request.args.get('name', '')  # New search term for name and description
 
 #     conditions = []
 #     params = []
 
+#     # Apply filters
 #     if category:
 #         conditions.append("category = %s")
 #         params.append(category)
@@ -128,7 +130,14 @@ def semantic_search():
 #         conditions.append("price <= %s")
 #         params.append(float(max_price))
 
+#     # Add keyword search for name and description
+#     if search_term:
+#         conditions.append("MATCH(%s)")
+#         params.append(f"@name {search_term} | @description {search_term}")
+
 #     where_clause = " AND ".join(conditions) if conditions else "1=1"
+    
+#     # Modify the SQL query to include the keyword search
 #     sql = f"SELECT product_id, name, category, manufacturer, price, description FROM products WHERE {where_clause} LIMIT 20;"
 
 #     connection = get_db_connection()
@@ -147,23 +156,24 @@ def semantic_search():
 
 @app.route('/faceted-search', methods=['GET'])
 def faceted_search():
-    """Performs faceted search based on filters, including keyword search."""
+    """Performs faceted search: first searching by keyword, then applying category and price filters."""
+    search_term = request.args.get('name', '')  # First, search by name/description
     category = request.args.get('category', '')
-    manufacturer = request.args.get('manufacturer', '')
     min_price = request.args.get('min_price', '')
     max_price = request.args.get('max_price', '')
-    search_term = request.args.get('name', '')  # New search term for name and description
 
     conditions = []
     params = []
 
-    # Apply filters
+    # Step 1: Perform full-text search first
+    if search_term:
+        conditions.append("MATCH(%s)")
+        params.append(f"@name {search_term} | @description {search_term}")
+
+    # Step 2: Apply filters only on category and price
     if category:
         conditions.append("category = %s")
         params.append(category)
-    if manufacturer:
-        conditions.append("manufacturer = %s")
-        params.append(manufacturer)
     if min_price:
         conditions.append("price >= %s")
         params.append(float(min_price))
@@ -171,28 +181,39 @@ def faceted_search():
         conditions.append("price <= %s")
         params.append(float(max_price))
 
-    # Add keyword search for name and description
-    if search_term:
-        conditions.append("MATCH(%s)")
-        params.append(f"@name {search_term} | @description {search_term}")
-
     where_clause = " AND ".join(conditions) if conditions else "1=1"
-    
-    # Modify the SQL query to include the keyword search
-    sql = f"SELECT product_id, name, category, manufacturer, price, description FROM products WHERE {where_clause} LIMIT 20;"
+
+    sql = f"""
+        SELECT product_id, name, category, manufacturer, price, description 
+        FROM products 
+        WHERE {where_clause} 
+        ORDER BY WEIGHT() DESC
+        LIMIT 20;
+    """
 
     connection = get_db_connection()
     cursor = connection.cursor()
     try:
         cursor.execute(sql, tuple(params))
         results = cursor.fetchall()
-        products = [{"product_id": row[0], "name": row[1], "category": row[2], "manufacturer": row[3], "price": row[4], "description": row[5]} for row in results]
+        products = [
+            {
+                "product_id": row[0],
+                "name": row[1],
+                "category": row[2],
+                "manufacturer": row[3],
+                "price": row[4],
+                "description": row[5],
+            }
+            for row in results
+        ]
         return jsonify(products)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     finally:
         cursor.close()
         connection.close()
+
 
 
 if __name__ == "__main__":
