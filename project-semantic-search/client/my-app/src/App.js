@@ -421,7 +421,7 @@ function App() {
                   }}
                 >
                   {searchType === "faceted"
-                    ? `${item.name} | ${item.category} | ${item.manufacturer} | $${item.price}`
+                    ? `${item.name} | ${item.category} | ${item.manufacturer} | $${item.price} | ${item.description}`
                     : item.title}
                 </div>
               ))
