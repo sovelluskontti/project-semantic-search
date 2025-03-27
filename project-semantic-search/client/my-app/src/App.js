@@ -266,50 +266,84 @@ function App() {
               boxShadow: "2px 0 5px rgba(0,0,0,0.1)",
             }}
           >
-            <h2 style={{ textAlign: "center" }}>Faceted Filters</h2>
+          <h2 style={{ textAlign: "center" }}>Faceted Filters</h2>
 
-            {/* Category */}
-            <input
-              type="text"
-              placeholder="Category"
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              style={{
-                padding: "10px",
-                marginBottom: "10px",
-                width: "100%",
-                border: "1px solid #ccc",
-                borderRadius: "5px",
-              }}
-            />
+            <div style={{ marginBottom: "20px" }}>
+              <h3>Category</h3>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  padding: "10px 0",
+                }}
+              >
+                <button
+                  onClick={() =>
+                    setCategory(category === "Power Tools" ? "" : "Power Tools")
+                  }                  
+                  style={{
+                    padding: "10px",
+                    backgroundColor: category === "Power Tools" ? "#008CBA" : "#f8f8f8",
+                    color: category === "Power Tools" ? "white" : "black",
+                    border: "1px solid #ccc",
+                    borderRadius: "5px",
+                    width: "48%",
+                    cursor: "pointer",
+                  }}
+                >
+                  Power Tools
+                </button>
+                <button
+                  onClick={() =>
+                    setCategory(category === "Drilling Tools" ? "" : "Drilling Tools")
+                  }                  
+                  style={{
+                    padding: "10px",
+                    backgroundColor: category === "Drilling Tools" ? "#008CBA" : "#f8f8f8",
+                    color: category === "Drilling Tools" ? "white" : "black",
+                    border: "1px solid #ccc",
+                    borderRadius: "5px",
+                    width: "48%",
+                    cursor: "pointer",
+                  }}
+                >
+                  Drilling Tools
+                </button>
+              </div>
+            </div>
 
-            {/* Price */}
-            <input
-              type="number"
-              placeholder="Min Price"
-              value={minPrice}
-              onChange={(e) => setMinPrice(e.target.value)}
-              style={{
-                padding: "10px",
-                marginBottom: "10px",
-                width: "100%",
-                border: "1px solid #ccc",
-                borderRadius: "5px",
-              }}
-            />
-            <input
-              type="number"
-              placeholder="Max Price"
-              value={maxPrice}
-              onChange={(e) => setMaxPrice(e.target.value)}
-              style={{
-                padding: "10px",
-                marginBottom: "10px",
-                width: "100%",
-                border: "1px solid #ccc",
-                borderRadius: "5px",
-              }}
-            />
+            {/* Price Range Slider */}
+            <div>
+            <h3>Price</h3>
+              <label style={{ display: "block", textAlign: "center", marginBottom: "10px" }}>
+                {`Price Range: ${minPrice}€ - ${maxPrice}€`}
+              </label>
+
+              {/* Single Range Slider for both min and max price */}
+              <input
+                type="range"
+                min="0"
+                max="200"
+                value={minPrice}
+                onChange={(e) => setMinPrice(e.target.value)}
+                style={{
+                  width: "100%",
+                  marginBottom: "10px",
+                }}
+              />
+
+              <input
+                type="range"
+                min={minPrice}  // Make sure the max price is always greater than the min price
+                max="200"
+                value={maxPrice}
+                onChange={(e) => setMaxPrice(e.target.value)}
+                style={{
+                  width: "100%",
+                  marginBottom: "10px",
+                }}
+              />
+            </div>
 
             <button
               onClick={handleSearch}
