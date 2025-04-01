@@ -103,74 +103,23 @@ def semantic_search():
         return jsonify({"error": str(e)}), 500
 
 
-
-# @app.route('/faceted-search', methods=['GET'])
-# def faceted_search():
-#     """Performs faceted search based on filters, including keyword search."""
-#     category = request.args.get('category', '')
-#     manufacturer = request.args.get('manufacturer', '')
-#     min_price = request.args.get('min_price', '')
-#     max_price = request.args.get('max_price', '')
-#     search_term = request.args.get('name', '')  # New search term for name and description
-
-#     conditions = []
-#     params = []
-
-#     # Apply filters
-#     if category:
-#         conditions.append("category = %s")
-#         params.append(category)
-#     if manufacturer:
-#         conditions.append("manufacturer = %s")
-#         params.append(manufacturer)
-#     if min_price:
-#         conditions.append("price >= %s")
-#         params.append(float(min_price))
-#     if max_price:
-#         conditions.append("price <= %s")
-#         params.append(float(max_price))
-
-#     # Add keyword search for name and description
-#     if search_term:
-#         conditions.append("MATCH(%s)")
-#         params.append(f"@name {search_term} | @description {search_term}")
-
-#     where_clause = " AND ".join(conditions) if conditions else "1=1"
-    
-#     # Modify the SQL query to include the keyword search
-#     sql = f"SELECT product_id, name, category, manufacturer, price, description FROM products WHERE {where_clause} LIMIT 20;"
-
-#     connection = get_db_connection()
-#     cursor = connection.cursor()
-#     try:
-#         cursor.execute(sql, tuple(params))
-#         results = cursor.fetchall()
-#         products = [{"product_id": row[0], "name": row[1], "category": row[2], "manufacturer": row[3], "price": row[4], "description": row[5]} for row in results]
-#         return jsonify(products)
-#     except Exception as e:
-#         return jsonify({"error": str(e)}), 500
-#     finally:
-#         cursor.close()
-#         connection.close()
-
-
+## faceted search
 @app.route('/faceted-search', methods=['GET'])
 def faceted_search():
     """Performs faceted search: first searching by keyword, then applying category and price filters."""
-    search_term = request.args.get('name', '')  # First, search by name/description
+    search_term = request.args.get('name', '')  
     category = request.args.get('category', '')
     min_price = request.args.get('min_price', '')
     max_price = request.args.get('max_price', '')
+    in_stock = request.args.get('in_stock', '')
 
     conditions = []
     params = []
 
-    # Step 1: Perform full-text search first
     if search_term:
         conditions.append("MATCH(%s)")
         params.append(f"@name {search_term} | @description {search_term}")
 
-    # Step 2: Apply filters only on category and price
     if category:
         conditions.append("category = %s")
         params.append(category)
@@ -180,21 +129,32 @@ def faceted_search():
     if max_price:
         conditions.append("price <= %s")
         params.append(float(max_price))
+    if in_stock == "1": 
+        conditions.append("stock > 0")
+
 
     where_clause = " AND ".join(conditions) if conditions else "1=1"
 
-    sql = f"""
-        SELECT product_id, name, category, manufacturer, price, description 
+    # First query: SELECT products
+    sql_1 = f"""
+        SELECT product_id, name, category, manufacturer, price, stock, description 
         FROM products 
         WHERE {where_clause} 
         ORDER BY WEIGHT() DESC
         LIMIT 20;
     """
 
+    # Second query: SELECT count
+    sql_2 = f"""
+        SELECT COUNT(*) 
+        FROM products 
+        WHERE {where_clause};
+    """
+
     connection = get_db_connection()
     cursor = connection.cursor()
     try:
-        cursor.execute(sql, tuple(params))
+        cursor.execute(sql_1, tuple(params))
         results = cursor.fetchall()
         products = [
             {
@@ -203,11 +163,22 @@ def faceted_search():
                 "category": row[2],
                 "manufacturer": row[3],
                 "price": row[4],
-                "description": row[5],
+                "stock": row[5],
+                "description": row[6],
             }
             for row in results
         ]
-        return jsonify(products)
+        
+        # Execute the second query (select count)
+        cursor.execute(sql_2, tuple(params))
+        total_count = cursor.fetchone()[0]
+
+        
+        return jsonify({
+            "total_count": total_count,  # The total count of results
+            "products": products
+        })
+
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     finally:

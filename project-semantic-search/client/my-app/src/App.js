@@ -1,161 +1,4 @@
 
-// import { useState } from "react";
-
-// function App() {
-//   const [query, setQuery] = useState(""); 
-//   const [movies, setMovies] = useState([]);
-//   const [error, setError] = useState(null); 
-//   const [searchType, setSearchType] = useState("keyword");
-
-//   const handleSearch = async () => {
-//     if (!query) {
-//       setError("Search query cannot be empty.");
-//       setMovies([]);
-//       return;
-//     }
-
-//     setError(null);
-//     setMovies([]);
-//     console.log(`Searching for "${query}" using ${searchType} search`);
-
-//     try {
-//       // API endpoint based on search type
-//       const response = await fetch(
-//         searchType === "keyword"
-//           ? `/search?query=${encodeURIComponent(query)}`
-//           : `/semantic-search?query=${encodeURIComponent(query)}`
-//       );
-
-//       console.log("Response status:", response.status);
-
-//       if (response.status === 200) {
-//         const data = await response.json();
-//         console.log("Search results:", data);
-//         setMovies(data);
-//       } else {
-//         const errorData = await response.json();
-//         console.error("Server error:", errorData);
-//         setError(errorData.error || "An unknown error occurred.");
-//       }
-//     } catch (e) {
-//       console.error("Fetch error:", e);
-//       setError("Failed to fetch data. Please check the server.");
-//     }
-//   };
-
-//   return (
-//     <div className="App" style={{ textAlign: "center", marginTop: "20px" }}>
-//       <h1>Movie Search</h1>
-
-//       {/* Search type selection */}
-//       <div style={{ marginBottom: "20px" }}>
-//         <button
-//           onClick={() => {
-//             setSearchType("keyword");
-//             setMovies([]);
-//             setQuery("");
-//             setError(null);
-//           }}
-//           style={{
-//             backgroundColor: searchType === "keyword" ? "#4CAF50" : "#f0f0f0",
-//             color: searchType === "keyword" ? "white" : "black",
-//             margin: "5px",
-//             padding: "10px",
-//             border: "none",
-//             cursor: "pointer",
-//           }}
-//         >
-//           Keyword Search
-//         </button>
-//         <button
-//           onClick={() => {
-//             setSearchType("semantic");
-//             setMovies([]);
-//             setQuery("");
-//             setError(null);
-//           }}
-//           style={{
-//             backgroundColor: searchType === "semantic" ? "#4CAF50" : "#f0f0f0",
-//             color: searchType === "semantic" ? "white" : "black",
-//             margin: "5px",
-//             padding: "10px",
-//             border: "none",
-//             cursor: "pointer",
-//           }}
-//         >
-//           Semantic Search
-//         </button>
-//       </div>
-
-//       {/* Search input */}
-//       <div>
-//         <h2>{searchType === "keyword" ? "Keyword Search" : "Semantic Search"}</h2>
-//         <input
-//           type="text"
-//           placeholder={`Enter a movie title for ${searchType} search`}
-//           value={query}
-//           onChange={(e) => setQuery(e.target.value)}
-//           style={{
-//             padding: "10px",
-//             marginRight: "10px",
-//             width: "300px",
-//             border: "1px solid #ccc",
-//             borderRadius: "5px",
-//           }}
-//         />
-//         <button
-//           onClick={handleSearch}
-//           style={{
-//             padding: "10px",
-//             backgroundColor: "#008CBA",
-//             color: "white",
-//             border: "none",
-//             cursor: "pointer",
-//             borderRadius: "5px",
-//           }}
-//         >
-//           Search
-//         </button>
-//       </div>
-
-//       {/* Error handling */}
-//       {error && <p style={{ color: "red", marginTop: "20px" }}>{error}</p>}
-
-//       {/* Display results */}
-//       <div style={{ marginTop: "20px" }}>
-//         {movies.length > 0 ? (
-//           <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-//             {movies.map((movie, index) => (
-//               <div
-//                 key={index}
-//                 style={{
-//                   margin: "10px 0",
-//                   padding: "10px 20px",
-//                   backgroundColor: "#f9f9f9",
-//                   borderRadius: "5px",
-//                   boxShadow: "0px 0px 5px rgba(0,0,0,0.1)",
-//                   width: "50%",
-//                   textAlign: "center",
-//                 }}
-//               >
-//                 {movie.title}
-//               </div>
-//             ))}
-//           </div>
-//         ) : (
-//           <p style={{ textAlign: "center", marginTop: "20px" }}>
-//             No results found. Try a different search.
-//           </p>
-//         )}
-//       </div>
-
-//     </div>
-//   );
-// }
-
-// export default App;
-
-
 
 import { useState, useEffect } from "react";
 
@@ -168,11 +11,15 @@ function App() {
   const [category, setCategory] = useState("");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
-  const [productSearch, setProductSearch] = useState(""); // product name search box
+  const [productSearch, setProductSearch] = useState("");
+  const [inStock, setInStock] = useState(false);
+  const [resultsCount, setResultsCount] = useState(null);
+
 
   const handleSearch = async () => {
     setError(null);
     setMovies(null);
+    setResultsCount(null);
     console.log(`Searching using ${searchType} search`);
 
     try {
@@ -193,6 +40,7 @@ function App() {
         if (minPrice) params.append("min_price", minPrice);
         if (maxPrice) params.append("max_price", maxPrice);
         if (productSearch) params.append("name", productSearch);
+        if (inStock) params.append("in_stock", "1");
         response = await fetch(`/faceted-search?${params.toString()}`);
       }
 
@@ -201,7 +49,8 @@ function App() {
       if (response.ok) {
         const data = await response.json();
         console.log("Search results:", data);
-        setMovies(data);
+        setMovies(data.products);
+        setResultsCount(data.total_count);
       } else {
         const errorData = await response.json();
         console.error("Server error:", errorData);
@@ -319,7 +168,6 @@ function App() {
                 {`Price Range: ${minPrice}€ - ${maxPrice}€`}
               </label>
 
-              {/* Single Range Slider for both min and max price */}
               <input
                 type="range"
                 min="0"
@@ -334,7 +182,7 @@ function App() {
 
               <input
                 type="range"
-                min={minPrice}  // Make sure the max price is always greater than the min price
+                min={minPrice} 
                 max="200"
                 value={maxPrice}
                 onChange={(e) => setMaxPrice(e.target.value)}
@@ -344,6 +192,20 @@ function App() {
                 }}
               />
             </div>
+
+            {/* In Stock Filter */}
+            <div style={{ marginTop: "20px" }}>
+              <h3>Availability</h3>
+              <label style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                <input
+                  type="checkbox"
+                  checked={inStock}
+                  onChange={() => setInStock(!inStock)}
+                />
+                In Stock
+              </label>
+            </div>
+
 
             <button
               onClick={handleSearch}
@@ -404,6 +266,13 @@ function App() {
             </div>
           )}
 
+          {/* Display Results Count */}
+          {resultsCount !== null && searchType === "faceted" && (
+            <div style={{ marginBottom: "20px", textAlign: "center" }}>
+              <p><strong>Total Results: {resultsCount}</strong></p>
+            </div>
+          )}
+
           {/* Keyword / Semantic search input */}
           {(searchType === "keyword" || searchType === "semantic") && (
             <div style={{ marginBottom: "20px" }}>
@@ -454,9 +323,19 @@ function App() {
                     textAlign: "center",
                   }}
                 >
-                  {searchType === "faceted"
-                    ? `${item.name} | ${item.category} | ${item.manufacturer} | $${item.price} | ${item.description}`
-                    : item.title}
+                  {searchType === "faceted" ? (
+                    <div>
+                      <p><strong>Name:</strong> {item.name}</p>
+                      <p><strong>Category:</strong> {item.category}</p>
+                      <p><strong>Manufacturer:</strong> {item.manufacturer}</p>
+                      <p><strong>Price:</strong> ${item.price.toFixed(2)}</p>
+                      <p><strong>Stock:</strong> {item.stock > 0 ? item.stock : "Out of stock"}</p>
+                      <p><strong>Description:</strong> {item.description}</p>
+                    </div>
+                  ) : (
+                    <div>{item.title}</div>
+                  )}
+
                 </div>
               ))
             ) : (
