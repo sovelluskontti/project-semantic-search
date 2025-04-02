@@ -14,12 +14,14 @@ function App() {
   const [productSearch, setProductSearch] = useState("");
   const [inStock, setInStock] = useState(false);
   const [resultsCount, setResultsCount] = useState(null);
+  const [categoryCounts, setCategoryCounts] = useState({}); 
 
 
   const handleSearch = async () => {
     setError(null);
     setMovies(null);
     setResultsCount(null);
+    setCategoryCounts({});
     console.log(`Searching using ${searchType} search`);
 
     try {
@@ -50,10 +52,11 @@ function App() {
         const data = await response.json();
         console.log("Search results:", data);
         if (searchType === "keyword" || searchType === "semantic") {
-          setMovies(data); // Set movies data for keyword and semantic searches
+          setMovies(data); 
         } else if (searchType === "faceted") {
-          setMovies(data.products); // Set products data for faceted search
-          setResultsCount(data.total_count); // Set the total count for faceted search
+          setMovies(data.products); 
+          setResultsCount(data.total_count); 
+          setCategoryCounts(data.category_counts || {}); 
         }
       } else {
         const errorData = await response.json();
@@ -144,7 +147,7 @@ function App() {
                     cursor: "pointer",
                   }}
                 >
-                  Power Tools
+                  Power Tools ({categoryCounts?.["Power Tools"] || 0})
                 </button>
                 <button
                   onClick={() =>
@@ -160,7 +163,7 @@ function App() {
                     cursor: "pointer",
                   }}
                 >
-                  Drilling Tools
+                  Drilling Tools ({categoryCounts?.["Drilling Tools"] || 0})
                 </button>
               </div>
             </div>
