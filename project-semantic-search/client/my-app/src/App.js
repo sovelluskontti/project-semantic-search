@@ -49,8 +49,12 @@ function App() {
       if (response.ok) {
         const data = await response.json();
         console.log("Search results:", data);
-        setMovies(data.products);
-        setResultsCount(data.total_count);
+        if (searchType === "keyword" || searchType === "semantic") {
+          setMovies(data); // Set movies data for keyword and semantic searches
+        } else if (searchType === "faceted") {
+          setMovies(data.products); // Set products data for faceted search
+          setResultsCount(data.total_count); // Set the total count for faceted search
+        }
       } else {
         const errorData = await response.json();
         console.error("Server error:", errorData);
