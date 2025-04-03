@@ -9,12 +9,14 @@ function App() {
   const [searchType, setSearchType] = useState("keyword");
 
   const [category, setCategory] = useState("");
+  const [manufacturer, setManufacturer] = useState("");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [productSearch, setProductSearch] = useState("");
   const [inStock, setInStock] = useState(false);
   const [resultsCount, setResultsCount] = useState(null);
   const [categoryCounts, setCategoryCounts] = useState({}); 
+  const [manufacturerCounts, setManufacturerCounts] = useState({});
 
 
   const handleSearch = async () => {
@@ -22,6 +24,7 @@ function App() {
     setMovies(null);
     setResultsCount(null);
     setCategoryCounts({});
+    setManufacturerCounts({});
     console.log(`Searching using ${searchType} search`);
 
     try {
@@ -39,6 +42,7 @@ function App() {
       } else if (searchType === "faceted") {
         const params = new URLSearchParams();
         if (category) params.append("category", category);
+        if (manufacturer) params.append("manufacturer", manufacturer);
         if (minPrice) params.append("min_price", minPrice);
         if (maxPrice) params.append("max_price", maxPrice);
         if (productSearch) params.append("name", productSearch);
@@ -57,6 +61,7 @@ function App() {
           setMovies(data.products); 
           setResultsCount(data.total_count); 
           setCategoryCounts(data.category_counts || {}); 
+          setManufacturerCounts(data.manufacturer_counts || {});
         }
       } else {
         const errorData = await response.json();
@@ -84,6 +89,7 @@ function App() {
     setMinPrice("");
     setMaxPrice("");
     setProductSearch("");
+    setManufacturer("");
   };
 
   return (
@@ -168,6 +174,30 @@ function App() {
               </div>
             </div>
 
+            {/* Manufacturer Filter */}
+            <div style={{ marginBottom: "20px" }}>
+              <h3>Manufacturer</h3>
+              {["DrillMaster", "PowerCraft", "WoodMaster", "DrillWorks", "EarthBore", "TechTools", "DrillPro", "ToolLite", "WoodTech", "DrillForce"].map((manu) => (
+                <button
+                  key={manu}
+                  onClick={() => setManufacturer(manufacturer === manu ? "" : manu)}
+                  style={{
+                    padding: "10px",
+                    backgroundColor: manufacturer === manu ? "#008CBA" : "#f8f8f8",
+                    color: manufacturer === manu ? "white" : "black",
+                    border: "1px solid #ccc",
+                    borderRadius: "5px",
+                    width: "48%",
+                    cursor: "pointer",
+                    margin: "2px"
+                  }}
+                >
+                  {manu} ({manufacturerCounts?.[manu] || 0})
+                </button>
+              ))}
+            </div>
+
+
             {/* Price Range Slider */}
             <div>
             <h3>Price</h3>
@@ -224,6 +254,7 @@ function App() {
                 width: "100%",
                 cursor: "pointer",
                 borderRadius: "5px",
+                marginTop: "20px",
               }}
             >
               Apply Filters

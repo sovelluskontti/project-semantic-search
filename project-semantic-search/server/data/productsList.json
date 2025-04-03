@@ -208,5 +208,26 @@
       "https://example.com/images/pm-2010-back.jpg"
     ],
     "updated_at": "2025-02-03T12:00:00Z"
+  },
+  {
+    "product_id": "PM-2010",
+    "name": "Heavy Duty Drill PM-2010 second version",
+    "category": "Power Tools",
+    "manufacturer": "DrillForce",
+    "description": "Heavy-duty drill for industrial and high-performance use.",
+    "price": 199.99,
+    "currency": "EUR",
+    "stock": 0,
+    "features": ["Impact drill", "Steel drill", "Rock drill"],
+    "ratings": {
+      "average_rating": 4.9,
+      "review_count": 95
+    },
+    "warranty": "5 years",
+    "images": [
+      "https://example.com/images/pm-2010-front.jpg",
+      "https://example.com/images/pm-2010-back.jpg"
+    ],
+    "updated_at": "2025-02-03T12:00:00Z"
   }
 ]
