@@ -74,6 +74,11 @@ Select * from movies limit 10;
 
 ![image](https://github.com/user-attachments/assets/3c54da43-b079-4244-8082-7174b0c942c2)
 
+Using the same approach with "python data_scripts/insert_products.py", we can insert the products list into the products database table for doing the faceted filtering in the final view of the website. 
+Firstly, we have to create the products table in Manticore before inserting the data. Here is the create table query:
+
+![image](https://github.com/user-attachments/assets/65c78cb0-f18b-4378-8311-204793f7517b)
+
 
 ## Keyword and Semantic search
 
