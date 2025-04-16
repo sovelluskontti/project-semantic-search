@@ -86,11 +86,41 @@ You should be able to see the React application like the picture shown below:
 
 Let’s first test the keyword search:
 
-![image](https://github.com/user-attachments/assets/b48afef7-a69d-4947-a9ed-4796b6268352)
+![image](https://github.com/user-attachments/assets/72d0330f-5aee-48bb-99dc-0b6f9dc0740b)
 
 Now the semantic search for the same search text:
 
-![image](https://github.com/user-attachments/assets/f79445e6-3240-49e6-a575-f7fb7997ccb4)
+![image](https://github.com/user-attachments/assets/ba1f6bdb-c0e0-4c9d-9aca-9ca3bebceb94)
 
-You can do the test with any word that currently exists in the database. 
+## Faceted search
+The final part of the project is to do a faceted search and filtering like all e-commerce websites using the  Manticore database table. 
+Here is the first look at the website:
+
+![image](https://github.com/user-attachments/assets/686e56c6-b376-4f11-8d30-826f34a9227a)
+
+In this view, we can first search for the products listed in the database table and then filter the results to get the most efficient results possible. 
+For creating the table, the lemmatization feature is enabled on the title and description which are used to do the search on these two fields. Here is the query for creating the products table:
+
+![image](https://github.com/user-attachments/assets/fb26092d-7bed-4f8c-b9f7-f797980d9679)
+
+Let's do an example of how this application works. We will first do the search on the word “drill”. Then, we would do filtering on the products that belong to the category “Power Tools”.  
+
+![image](https://github.com/user-attachments/assets/0549884f-bedd-4d48-80d5-2f74cf2ed6bf)
+
+The next filter can be to limit the price range to be between 100 to 200 euros. 
+
+![image](https://github.com/user-attachments/assets/6c0f274f-149a-401c-b861-c9511ad89c92)
+
+Another possible filter could be to only limit the products that are available in the database at the moment. 
+
+![image](https://github.com/user-attachments/assets/de68cd3f-c182-419a-a175-c3c991005e2f)
+
+Also, we can filter the results again by their manufacturer. 
+
+![image](https://github.com/user-attachments/assets/a7e70fb9-dcde-429f-86ba-4d0a58bab69d)
+
+This is only one example of how this application works. The important note is that the count numbers were updated accordingly in each search and filtering step. 
+
+
+
 
