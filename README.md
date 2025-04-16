@@ -17,7 +17,7 @@ This project implements a proof-of-concept semantic search solution using the Ma
   ## Project's structure 
   Below is the project directory structure:
 
-![image](https://github.com/user-attachments/assets/21846c1e-8b8f-4496-b071-baf39e487e81)
+<img width="383" alt="image" src="https://github.com/user-attachments/assets/7786fc04-6824-42a7-8890-e7037f43bd44" />
 
   As shown above, the project is divided into three sections: 
   - client for handling the React application for the frontend
