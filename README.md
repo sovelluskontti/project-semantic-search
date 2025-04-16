@@ -82,7 +82,7 @@ The React app is working on the localhost port 3000.
 http://localhost:3000/
 You should be able to see the React application like the picture shown below:
 
-![image](https://github.com/user-attachments/assets/0202cafa-aa8a-4890-b537-119fca7d4778)
+<img width="242" alt="image" src="https://github.com/user-attachments/assets/c727efef-38ae-4891-b064-ee2e36cf7855" />
 
 Let’s first test the keyword search:
 
