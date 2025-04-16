@@ -104,10 +104,6 @@ Here is the first look at the website:
 ![image](https://github.com/user-attachments/assets/686e56c6-b376-4f11-8d30-826f34a9227a)
 
 In this view, we can first search for the products listed in the database table and then filter the results to get the most efficient results possible. 
-For creating the table, the lemmatization feature is enabled on the title and description which are used to do the search on these two fields. Here is the query for creating the products table:
-
-![image](https://github.com/user-attachments/assets/fb26092d-7bed-4f8c-b9f7-f797980d9679)
-
 Let's do an example of how this application works. We will first do the search on the word “drill”. Then, we would do filtering on the products that belong to the category “Power Tools”.  
 
 ![image](https://github.com/user-attachments/assets/0549884f-bedd-4d48-80d5-2f74cf2ed6bf)
