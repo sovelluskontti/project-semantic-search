@@ -1,10 +1,11 @@
-# Semantic Search using Manticore Search Engine
-This project implements a proof-of-concept semantic search solution using the Manticore Search Engine, LLMs, vector databases, Docker environment, React and Flask application. 
+# keyword, Semantic and faceted Search using Manticore Search Engine
+This project implements a proof-of-concept three view application to demonstrate keyword, semantic and faceted search solution using the Manticore Search Engine, vector databases, Docker environment, React and Flask application. 
 
 ## Goals
 - Compare semantic search with keyword-based search.
 - Implement a demo search page using React for Frontend.
-- Managing the backend using Flask application and python to connect to Manticore database table. 
+- Managing the backend using Flask application and python to connect to Manticore database table.
+- showcasing faceted filtering on a list of products using manticore.
 
 ## Technologies
 - Python
